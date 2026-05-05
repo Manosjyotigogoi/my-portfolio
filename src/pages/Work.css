@@ -1,0 +1,388 @@
+/* ── OVERRIDE page-container defaults for work page ── */
+.work-page-container {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  height: 100% !important;
+  max-height: 100% !important;
+}
+
+/* ── LEFT COLUMN ── */
+.work-left {
+  flex: 0 0 55%;
+  max-width: 55%;
+  display: flex;
+  flex-direction: column;
+  padding: 36px 0 20px 72px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.work-left .page-header {
+  margin-bottom: 0 !important;
+  flex-shrink: 0;
+  animation: none !important;
+  opacity: 1 !important;
+}
+
+/* ── CANVAS CONTAINER ── */
+.wheel-container {
+  position: relative;
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+}
+
+.wheel-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+.wheel-card-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* ── WHEEL CARDS — bigger ── */
+.wh-card {
+  position: absolute;
+  /* Increased from 110px */
+  width: 136px;
+  transform: translate(-50%, -50%);
+  pointer-events: all;
+  cursor: pointer;
+}
+.wh-card:hover .wh-card-inner,
+.wh-card.wh-card--pointer .wh-card-inner {
+  border-color: rgba(0,229,255,0.35);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.7), var(--card-glow), 0 0 24px rgba(0,229,255,0.18);
+  transform: translateY(-3px) scale(1.04);
+}
+.wh-card-inner {
+  background: linear-gradient(160deg,rgba(10,20,35,0.92) 0%,rgba(6,12,22,0.88) 60%,rgba(4,8,16,0.85) 100%);
+  border: 1px solid rgba(0,229,255,0.1);
+  border-radius: 14px;
+  /* More padding for bigger feel */
+  padding: 16px 12px 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6), var(--card-glow);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.wh-card-inner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 45%;
+  background: linear-gradient(180deg,rgba(0,229,255,0.03) 0%,transparent 100%);
+  border-radius: 14px 14px 0 0;
+  pointer-events: none;
+}
+.wh-icon-box {
+  /* Bigger icon box */
+  width: 52px; height: 52px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 10px;
+  background: var(--icon-bg);
+  border: 1px solid var(--icon-border);
+}
+.wh-icon-box img { width: 32px; height: 32px; object-fit: contain; }
+.wh-card-name {
+  font-size: 13px; font-weight: 700; color: #fff;
+  letter-spacing: -0.2px; margin-bottom: 3px;
+  text-align: center; line-height: 1.1;
+  font-family: 'Rajdhani', sans-serif;
+}
+.wh-card-sub {
+  font-size: 8.5px; color: rgba(0,229,255,0.4);
+  text-align: center; letter-spacing: 0.2px; line-height: 1.3;
+  font-family: 'Space Mono', monospace;
+}
+.wh-accent-bar {
+  width: 50%; height: 2px; border-radius: 2px;
+  background: var(--accent); margin-top: 10px;
+  opacity: 0.85; box-shadow: 0 0 8px var(--accent);
+}
+
+/* ── TRIANGLE POINTER — bottom-center, simple cyan triangle pointing UP ── */
+.wheel-dial-arrow {
+  position: absolute;
+  /* Moved lower so it sits just above the bottom edge, pointing at the card above */
+  bottom: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  pointer-events: none;
+  filter: drop-shadow(0 0 8px rgba(0,229,255,0.6));
+  animation: dialPulse 2s ease-in-out infinite;
+}
+@keyframes dialPulse {
+  0%, 100% { filter: drop-shadow(0 0 5px rgba(0,229,255,0.4)); opacity: 0.85; }
+  50%       { filter: drop-shadow(0 0 12px rgba(0,229,255,0.9)); opacity: 1; }
+}
+
+/* ── SPIN BUTTON — moved up from bottom: 16px ── */
+.wheel-spin-btn {
+  position: absolute;
+  /* Moved up */
+  bottom: 52px;
+  right: 16px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(0,229,255,0.07);
+  border: 1px solid rgba(0,229,255,0.3);
+  color: #00e5ff;
+  padding: 9px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 9px;
+  letter-spacing: 3px;
+  font-family: 'Space Mono', monospace;
+  transition: all 0.2s;
+  backdrop-filter: blur(8px);
+}
+.wheel-spin-btn:hover:not(:disabled) {
+  background: rgba(0,229,255,0.14);
+  border-color: rgba(0,229,255,0.6);
+  box-shadow: 0 0 20px rgba(0,229,255,0.2);
+  color: #fff;
+}
+.wheel-spin-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.wheel-spin-btn.spinning svg {
+  animation: spinIcon 0.6s linear infinite;
+}
+@keyframes spinIcon {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── HINTS ── */
+.wheel-hints {
+  position: absolute; bottom: 16px; left: 16px;
+  display: flex; flex-direction: column; gap: 6px;
+  pointer-events: none;
+  z-index: 10;
+}
+.wheel-hint {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 9px; color: rgba(0,229,255,0.35);
+  font-family: 'Space Mono', monospace; letter-spacing: 1px;
+}
+
+/* ── RIGHT PANEL ── */
+.work-right {
+  flex: 0 0 45%;
+  max-width: 45%;
+  position: relative;
+  display: flex; align-items: stretch;
+  border-left: 1px solid rgba(0,238,255,0.07);
+  transition: opacity 0.35s ease;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.work-right.open { opacity: 1; pointer-events: all; }
+
+.skill-detail-panel {
+  width: 100%; overflow-y: auto;
+  padding: 48px 48px 48px 40px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,238,255,0.15) transparent;
+  background: rgba(4,12,20,0.35);
+  backdrop-filter: blur(4px);
+}
+.skill-detail-panel::-webkit-scrollbar { width: 3px; }
+.skill-detail-panel::-webkit-scrollbar-thumb { background: rgba(0,238,255,0.15); border-radius: 2px; }
+.skill-detail-inner { display: flex; flex-direction: column; animation: fadeUp 0.5s 0.1s both; }
+
+.skill-detail-eyebrow { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+.skill-detail-eyebrow span {
+  font-family: 'Space Mono', monospace; font-size: 8px;
+  letter-spacing: 4px; color: var(--cyan); text-transform: uppercase;
+}
+.skill-detail-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+.skill-detail-icon {
+  width: 48px; height: 48px; object-fit: contain;
+  border-radius: 10px; padding: 8px;
+  background: rgba(0,238,255,0.06);
+  border: 1px solid rgba(0,238,255,0.12);
+  flex-shrink: 0;
+}
+.skill-detail-name {
+  font-family: 'Orbitron', monospace; font-size: 26px; font-weight: 900;
+  color: #e8f4f8; letter-spacing: 2px; text-transform: uppercase; line-height: 1;
+}
+.skill-detail-sub {
+  font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 3px;
+  color: rgba(0,238,255,0.45); text-transform: uppercase;
+  margin-top: 6px; display: block;
+}
+.skill-detail-bar { height: 1.5px; border-radius: 2px; width: 100%; margin-bottom: 24px; opacity: 0.6; }
+.skill-detail-text {
+  font-family: 'Rajdhani', sans-serif; font-size: 13.5px;
+  line-height: 1.85; color: rgba(232,244,248,0.6);
+  letter-spacing: 0.2px; flex: 1; min-height: 240px;
+}
+.skill-detail-close {
+  margin-top: 32px; align-self: flex-start;
+  display: flex; align-items: center; gap: 8px;
+  background: transparent; border: 1px solid rgba(0,238,255,0.2);
+  color: rgba(0,238,255,0.6); padding: 8px 20px; border-radius: 30px;
+  cursor: pointer; font-size: 9px; letter-spacing: 2px;
+  font-family: 'Space Mono', monospace; transition: all 0.2s;
+}
+.skill-detail-close:hover { background: rgba(0,238,255,0.08); color: #fff; border-color: rgba(0,238,255,0.45); }
+
+/* ── PANEL INTRO ── */
+.panel-intro .skill-detail-inner { gap: 0; }
+.panel-intro-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 28px; font-weight: 900;
+  color: #e8f4f8; letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 0;
+  line-height: 1;
+}
+.panel-intro-divider {
+  width: 60px; height: 1.5px;
+  background: linear-gradient(90deg, #00e5ff, transparent);
+  margin: 18px 0 22px;
+  border-radius: 2px;
+  opacity: 0.5;
+}
+.panel-intro-text {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px; line-height: 1.8;
+  color: rgba(232,244,248,0.5);
+  letter-spacing: 0.2px;
+  margin-bottom: 14px;
+}
+.panel-intro-accent {
+  color: #00e5ff;
+  font-weight: 600;
+}
+.panel-intro-spin-hint {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-top: 24px;
+  padding: 14px 16px;
+  border: 1px solid rgba(0,229,255,0.12);
+  border-radius: 10px;
+  background: rgba(0,229,255,0.04);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 12.5px;
+  color: rgba(232,244,248,0.5);
+  line-height: 1.6;
+}
+.panel-intro-spin-hint svg { flex-shrink: 0; margin-top: 2px; }
+.panel-intro-spin-hint strong { color: #00e5ff; font-weight: 700; }
+
+/* ── MODAL (shared base) ── */
+.wheel-modal-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(2,5,15,0.65); backdrop-filter: blur(14px);
+  display: flex; align-items: center; justify-content: center;
+}
+.wheel-modal-box {
+  background: linear-gradient(145deg,rgba(8,20,35,0.97) 0%,rgba(4,10,20,0.97) 100%);
+  border: 1px solid rgba(0,238,255,0.15); border-radius: 24px;
+  padding: 36px 48px; text-align: center; min-width: 260px;
+  box-shadow: 0 0 80px rgba(0,229,255,0.08),0 40px 80px rgba(0,0,0,0.8);
+  animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes popIn { from{transform:scale(0.8) translateY(20px);opacity:0;} to{transform:none;opacity:1;} }
+.wheel-modal-icon-box {
+  width: 64px; height: 64px; border-radius: 14px;
+  margin: 0 auto 14px;
+  display: flex; align-items: center; justify-content: center;
+}
+.wheel-modal-icon-box img { width: 38px; height: 38px; object-fit: contain; }
+.wheel-modal-name { font-family: 'Orbitron',monospace; font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 4px; letter-spacing: 1px; }
+.wheel-modal-sub { font-family: 'Space Mono',monospace; font-size: 8px; color: rgba(0,238,255,0.5); letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 20px; }
+.wheel-modal-question { font-family: 'Rajdhani',sans-serif; font-size: 13px; color: rgba(232,244,248,0.55); letter-spacing: 0.3px; margin-bottom: 20px; }
+.wheel-modal-actions { display: flex; gap: 10px; justify-content: center; }
+.wheel-modal-btn { padding: 9px 24px; border-radius: 30px; cursor: pointer; font-size: 9px; letter-spacing: 2px; font-family: 'Space Mono',monospace; transition: all 0.2s; }
+.wheel-modal-btn.cancel { background: transparent; border: 1px solid rgba(0,238,255,0.2); color: rgba(0,238,255,0.55); }
+.wheel-modal-btn.cancel:hover { background: rgba(0,238,255,0.06); color: #fff; border-color: rgba(0,238,255,0.4); }
+.wheel-modal-btn.know-more { background: rgba(0,238,255,0.1); border: 1px solid rgba(0,238,255,0.35); color: var(--cyan); }
+.wheel-modal-btn.know-more:hover { background: rgba(0,238,255,0.18); color: #fff; border-color: rgba(0,238,255,0.6); box-shadow: 0 0 20px rgba(0,238,255,0.15); }
+
+/* ── COMMON SKILL MODAL ── */
+.common-skill-modal {
+  min-width: 300px;
+  max-width: 360px;
+  padding: 32px 36px 28px;
+  text-align: left;
+}
+.common-skill-top {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+.common-skill-icon-wrap {
+  width: 72px; height: 72px;
+  border-radius: 16px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.common-skill-icon-wrap img { width: 42px; height: 42px; object-fit: contain; }
+.common-skill-title-group { display: flex; flex-direction: column; gap: 2px; }
+.common-skill-we {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px; letter-spacing: 3px;
+  color: rgba(232,244,248,0.4);
+  text-transform: uppercase;
+}
+.common-skill-name {
+  font-family: 'Orbitron', monospace;
+  font-size: 22px; font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: 1px;
+}
+.common-skill-sub {
+  font-family: 'Space Mono', monospace;
+  font-size: 7.5px; letter-spacing: 2px;
+  color: rgba(232,244,248,0.35);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.common-skill-divider {
+  height: 1px; width: 100%;
+  margin-bottom: 16px;
+  border-radius: 1px;
+}
+.common-skill-text {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px; line-height: 1.75;
+  color: rgba(232,244,248,0.5);
+  margin-bottom: 20px;
+}
+.common-skill-text strong { color: #fff; font-weight: 700; }
+.common-skill-btn {
+  width: 100%;
+  justify-content: center;
+  letter-spacing: 1.5px !important;
+  font-size: 10px !important;
+}
+
+.typing-cursor::after { content: '|'; color: var(--cyan); animation: blink 0.8s step-end infinite; }

@@ -1,0 +1,7 @@
+#scanlines {
+  position: fixed; inset: 0; z-index: 5; pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 2px,
+    rgba(0,0,0,0.022) 2px, rgba(0,0,0,0.022) 4px
+  );
+}

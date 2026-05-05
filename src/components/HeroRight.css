@@ -1,0 +1,69 @@
+#right {
+  position: relative;
+  overflow: hidden;
+}
+
+#right::before {
+  content: '';
+  position: absolute; top: 0; left: 0; bottom: 0; width: 80px;
+  background: linear-gradient(to right, rgba(0,0,0,0.7), transparent);
+  z-index: 20; pointer-events: none;
+}
+
+#panel-label {
+  position: absolute; top: 10px; left: 0; right: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 18px; z-index: 30; pointer-events: none;
+  opacity: 0; animation: fadeIn 1s 1.8s forwards;
+}
+#panel-label span {
+  font-family: 'Space Mono', monospace;
+  font-size: 7.5px; letter-spacing: 3px;
+  color: rgba(0,238,255,0.2); text-transform: uppercase;
+}
+.live-badge {
+  display: flex; align-items: center; gap: 5px;
+  font-family: 'Space Mono', monospace;
+  font-size: 7.5px; letter-spacing: 2px;
+  color: rgba(0,238,255,0.2); text-transform: uppercase;
+}
+.live-badge::before {
+  content: '';
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--cyan); box-shadow: 0 0 5px var(--cyan);
+  animation: blink 2.2s ease-in-out infinite;
+}
+
+/* Corner brackets */
+.corner {
+  position: absolute; width: 22px; height: 22px;
+  z-index: 30; pointer-events: none;
+  opacity: 0; animation: fadeIn 0.8s 2s forwards;
+}
+.corner svg { width: 100%; height: 100%; }
+.corner-tl { top: 36px; left: 8px; }
+.corner-tr { top: 36px; right: 8px; transform: scaleX(-1); }
+.corner-bl { bottom: 8px; left: 8px; transform: scaleY(-1); }
+.corner-br { bottom: 8px; right: 8px; transform: scale(-1,-1); }
+
+/* Drag hint */
+#drag-hint {
+  position: absolute; bottom: 14px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; align-items: center; gap: 9px;
+  z-index: 30; pointer-events: none;
+  opacity: 0; animation: fadeIn 1s 2.5s forwards;
+}
+.hint-line { width: 18px; height: 1px; background: rgba(0,238,255,0.15); }
+.hint-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 7.5px; letter-spacing: 2px;
+  color: rgba(0,238,255,0.2); text-transform: uppercase;
+}
+
+#coords {
+  position: absolute; bottom: 14px; right: 14px;
+  font-family: 'Space Mono', monospace;
+  font-size: 7.5px; letter-spacing: 1.5px;
+  color: rgba(0,238,255,0.15); z-index: 30; pointer-events: none;
+}

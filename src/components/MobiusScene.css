@@ -1,0 +1,19 @@
+#right {
+  position: relative;
+  overflow: hidden;
+  /* No background, no ::before vignette — fully transparent */
+}
+
+#canvas-container {
+  position: absolute; inset: 0;
+}
+#canvas-container canvas {
+  display: block; width: 100% !important; height: 100% !important;
+}
+
+#coords {
+  position: absolute; bottom: 14px; right: 14px;
+  font-family: 'Space Mono', monospace;
+  font-size: 7.5px; letter-spacing: 1.5px;
+  color: rgba(0,238,255,0.15); z-index: 30; pointer-events: none;
+}

@@ -1,0 +1,199 @@
+/* ── CAROUSEL VIEWPORT ── */
+.projects-carousel-viewport {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  overflow: hidden;
+  cursor: grab;
+  padding: 24px 0 40px;
+  /* let cards overflow vertically for the scale effect */
+  mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+}
+.projects-carousel-viewport:active { cursor: grabbing; }
+
+/* ── TRACK (the scrolling row) ── */
+.projects-track {
+  display: flex;
+  gap: 24px;
+  padding: 20px 72px;
+  width: max-content;
+  will-change: transform;
+  transition: transform 0.04s linear;
+}
+
+/* ── CARD BASE ── */
+.project-card {
+  position: relative;
+  flex: 0 0 340px;
+  border: 1px solid rgba(0,238,255,0.1);
+  background: var(--bg-card);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: var(--radius);
+  text-decoration: none;
+  display: block;
+  overflow: visible;
+  opacity: 0;
+  clip-path: polygon(0 50%, 100% 50%, 100% 50%, 0 50%);
+  user-select: none;
+  /* transition for hover scale — only for visible cards */
+  transition: none;
+}
+
+.project-card.glitching {
+  animation: card-glitch-in 0.48s steps(1) forwards;
+}
+
+.project-card.visible {
+  opacity: 1;
+  clip-path: polygon(0 0%, 100% 0%, 100% 100%, 0 100%);
+  transition:
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* ── HOVER — scale up + glow ── */
+.project-card.visible:hover {
+  transform: scale(1.07) translateY(-8px);
+  border-color: rgba(0,238,255,0.55);
+  box-shadow:
+    0 0 0 1px rgba(0,238,255,0.25),
+    0 0 30px rgba(0,238,255,0.25),
+    0 0 70px rgba(0,238,255,0.12),
+    0 24px 60px rgba(0,0,0,0.7);
+  z-index: 10;
+}
+.project-card.visible:hover .project-card-glow { opacity: 1; }
+.project-card.visible:hover .project-arrow     { color: var(--cyan); }
+.project-card.visible:hover .project-name      { color: var(--cyan); }
+
+/* ── CARD INNER ── */
+.project-card-inner {
+  padding: 28px;
+  position: relative;
+  z-index: 1;
+  /* clip inner overflow but allow card to overflow parent */
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.project-card-glow {
+  position: absolute; inset: 0; border-radius: var(--radius);
+  background: radial-gradient(ellipse at 50% 0%, rgba(0,238,255,0.18), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+
+/* ── GLITCH KEYFRAMES ── */
+@keyframes card-glitch-in {
+  0%   { opacity:0; clip-path:polygon(0 50%,100% 50%,100% 50%,0 50%); transform:translateX(-6px); }
+  15%  { opacity:1; clip-path:polygon(0 20%,100% 20%,100% 80%,0 80%); transform:translateX(5px); }
+  30%  { clip-path:polygon(0 10%,100% 10%,100% 90%,0 90%);  transform:translateX(-4px); }
+  50%  { clip-path:polygon(0 5%, 100% 5%, 100% 95%,0 95%);  transform:translateX(3px); }
+  70%  { clip-path:polygon(0 2%, 100% 2%, 100% 98%,0 98%);  transform:translateX(-2px); }
+  100% { opacity:1; clip-path:polygon(0 0%,100% 0%,100% 100%,0 100%); transform:none; }
+}
+
+/* ── CARD CONTENT ── */
+.project-top {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 16px;
+}
+.project-id {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px; letter-spacing: 3px;
+  color: rgba(0,238,255,0.25); text-transform: uppercase;
+}
+.project-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 7.5px; letter-spacing: 2.5px;
+  color: var(--gold-dim);
+  border: 1px solid rgba(200,168,0,0.25);
+  border-radius: 4px; padding: 3px 10px;
+  background: rgba(255,215,0,0.04); text-transform: uppercase;
+}
+.project-name {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(13px, 1.4vw, 17px); font-weight: 700;
+  letter-spacing: 1.5px; color: #e8f4f8;
+  text-transform: uppercase; margin-bottom: 12px;
+  transition: color 0.25s; line-height: 1.3;
+}
+.project-desc {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px; color: rgba(232,244,248,0.5);
+  line-height: 1.75; margin-bottom: 20px; letter-spacing: 0.2px;
+}
+.project-tech {
+  display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 20px;
+}
+.tech-chip {
+  font-family: 'Space Mono', monospace;
+  font-size: 7.5px; letter-spacing: 2px;
+  color: rgba(0,238,255,0.45);
+  border: 1px solid rgba(0,238,255,0.15); border-radius: 4px;
+  padding: 3px 10px; background: rgba(0,238,255,0.03); text-transform: uppercase;
+}
+.project-arrow {
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'Space Mono', monospace;
+  font-size: 8px; letter-spacing: 2.5px;
+  color: rgba(0,238,255,0.3); text-transform: uppercase; transition: color 0.25s;
+}
+
+/* ── DRAG HINT ── */
+.carousel-hint {
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'Space Mono', monospace;
+  font-size: 8px; letter-spacing: 2.5px; text-transform: uppercase;
+  color: rgba(0,238,255,0.3);
+  padding: 0 72px;
+  margin-bottom: 4px;
+  animation: fadeUp 0.5s 0.2s both;
+}
+
+/* ── FADE EDGES ── */
+.carousel-fade-left,
+.carousel-fade-right {
+  position: absolute; top: 0; bottom: 0; width: 72px;
+  pointer-events: none; z-index: 2;
+}
+.carousel-fade-left  { left: 0;  background: linear-gradient(to right, var(--bg, #020c16), transparent); }
+.carousel-fade-right { right: 0; background: linear-gradient(to left,  var(--bg, #020c16), transparent); }
+
+/* ── NAV BUTTONS ── */
+.carousel-nav {
+  display: flex;
+  gap: 10px;
+  padding: 0 72px;
+  margin-bottom: 12px;
+  justify-content: flex-end;
+}
+.carousel-nav-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,238,255,0.2);
+  background: rgba(0,238,255,0.05);
+  color: rgba(0,238,255,0.5);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  backdrop-filter: blur(8px);
+}
+.carousel-nav-btn:hover {
+  background: rgba(0,238,255,0.12);
+  border-color: rgba(0,238,255,0.5);
+  color: #00eeff;
+  box-shadow: 0 0 16px rgba(0,238,255,0.2);
+}
+.carousel-nav-btn:active {
+  transform: scale(0.92);
+}
+
+.typing-cursor::after {
+  content: '|'; color: var(--cyan);
+  animation: blink 0.8s step-end infinite;
+}

@@ -1,0 +1,22 @@
+#cursor {
+  position: fixed; width: 10px; height: 10px;
+  border-radius: 50%; background: var(--cyan);
+  pointer-events: none; z-index: 9999;
+  opacity: 0; /* shown on first mousemove */
+  transform: translate(-50%,-50%);
+  transition: transform 0.08s, width 0.2s, height 0.2s;
+  mix-blend-mode: screen;
+  box-shadow: 0 0 10px var(--cyan), 0 0 20px rgba(0,238,255,0.4);
+  will-change: left, top;
+}
+#cursor-ring {
+  position: fixed; width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,238,255,0.45);
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
+  will-change: left, top;
+}
+#cursor.drag { transform: translate(-50%,-50%) scale(1.8); }
+#cursor-ring.drag { transform: translate(-50%,-50%) scale(0.55); }
