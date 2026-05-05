@@ -268,6 +268,23 @@ export default function Work() {
         canvas.addEventListener('touchstart', e => { if (spinningRef.current) return; isDragging = true; prevX = e.touches[0].clientX; velX = 0; autoRotate = false; e.preventDefault() }, { passive: false })
         canvas.addEventListener('touchmove', e => { if (!isDragging) return; velX = (e.touches[0].clientX - prevX) * 0.006; rotYRef.current += velX; prevX = e.touches[0].clientX; e.preventDefault() }, { passive: false })
         canvas.addEventListener('touchend', () => { isDragging = false })
+        // ✅ ADD HERE
+        const handleWheel = (e) => {
+        if (spinningRef.current) return;
+
+        autoRotate = false;
+
+        const delta =
+        Math.abs(e.deltaX) > Math.abs(e.deltaY)
+        ? e.deltaX
+        : e.deltaY;
+
+        velX += delta * 0.0006;
+
+        e.preventDefault();
+        };
+
+canvas.addEventListener('wheel', handleWheel, { passive: false });
 
         function handleSpin() {
           if (spinningRef.current) return
@@ -385,6 +402,7 @@ export default function Work() {
       if (rendererRef) rendererRef.dispose()
       const layer = document.getElementById('wheel-card-layer')
       if (layer) layer.innerHTML = ''
+      canvas.removeEventListener('wheel', handleWheel);
       window.removeEventListener('wheel-spin-start', () => {})
     }
   }, [wheelReady])
