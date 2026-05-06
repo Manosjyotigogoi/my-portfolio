@@ -194,11 +194,12 @@ export default function Work() {
     const THREE = window.THREE
     if (!THREE) return
 
-    let raf1, raf2, animId, ro, rendererRef
+    let raf1, raf2, animId, ro, rendererRef 
+    let onMouseMove, onMouseUp, handleSpin, handleWheel, canvas
 
     raf1 = requestAnimationFrame(() => {
       raf2 = requestAnimationFrame(() => {
-        const canvas    = canvasRef.current
+        canvas    = canvasRef.current
         const container = containerRef.current
         if (!canvas || !container) return
 
@@ -263,13 +264,15 @@ export default function Work() {
         let isDragging = false, prevX = 0, velX = 0, autoRotate = true
 
         canvas.addEventListener('mousedown', e => { if (spinningRef.current) return; isDragging = true; prevX = e.clientX; velX = 0; autoRotate = false })
-        window.addEventListener('mousemove', e => { if (!isDragging) return; velX = (e.clientX - prevX) * 0.006; rotYRef.current += velX; prevX = e.clientX })
-        window.addEventListener('mouseup', () => { isDragging = false })
+        onMouseMove = e => { if (!isDragging) return; velX = (e.clientX - prevX) * 0.006; rotYRef.current += velX; prevX = e.clientX }
+        onMouseUp = () => { isDragging = false }
+        window.addEventListener('mousemove', onMouseMove)
+        window.addEventListener('mouseup', onMouseUp)
         canvas.addEventListener('touchstart', e => { if (spinningRef.current) return; isDragging = true; prevX = e.touches[0].clientX; velX = 0; autoRotate = false; e.preventDefault() }, { passive: false })
         canvas.addEventListener('touchmove', e => { if (!isDragging) return; velX = (e.touches[0].clientX - prevX) * 0.006; rotYRef.current += velX; prevX = e.touches[0].clientX; e.preventDefault() }, { passive: false })
         canvas.addEventListener('touchend', () => { isDragging = false })
         // ✅ ADD HERE
-        const handleWheel = (e) => {
+        handleWheel = (e) => {
         if (spinningRef.current) return;
 
         autoRotate = false;
@@ -286,7 +289,7 @@ export default function Work() {
 
 canvas.addEventListener('wheel', handleWheel, { passive: false });
 
-        function handleSpin() {
+          handleSpin = function() {
           if (spinningRef.current) return
           spinningRef.current = true
           autoRotate = false
@@ -395,16 +398,19 @@ canvas.addEventListener('wheel', handleWheel, { passive: false });
     })
 
     return () => {
-      cancelAnimationFrame(raf1)
-      cancelAnimationFrame(raf2)
-      cancelAnimationFrame(animId)
-      if (ro) ro.disconnect()
-      if (rendererRef) rendererRef.dispose()
-      const layer = document.getElementById('wheel-card-layer')
-      if (layer) layer.innerHTML = ''
-      canvas.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('wheel-spin-start', () => {})
-    }
+    cancelAnimationFrame(raf1)
+    cancelAnimationFrame(raf2)
+    cancelAnimationFrame(animId)
+    if (ro) ro.disconnect()
+    if (rendererRef) rendererRef.dispose()
+    const layer = document.getElementById('wheel-card-layer')
+    if (layer) layer.innerHTML = ''
+    // ✅ properly remove all window listeners
+    window.removeEventListener('mousemove', onMouseMove)
+    window.removeEventListener('mouseup', onMouseUp)
+    window.removeEventListener('wheel-spin-start', handleSpin)
+    canvas.removeEventListener('wheel', handleWheel)
+}
   }, [wheelReady])
 
   useEffect(() => {

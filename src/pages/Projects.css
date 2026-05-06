@@ -6,13 +6,12 @@
   overflow: hidden;
   cursor: grab;
   padding: 24px 0 40px;
-  /* let cards overflow vertically for the scale effect */
   mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
   -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
 }
 .projects-carousel-viewport:active { cursor: grabbing; }
 
-/* ── TRACK (the scrolling row) ── */
+/* ── TRACK ── */
 .projects-track {
   display: flex;
   gap: 24px;
@@ -37,7 +36,6 @@
   opacity: 0;
   clip-path: polygon(0 50%, 100% 50%, 100% 50%, 0 50%);
   user-select: none;
-  /* transition for hover scale — only for visible cards */
   transition: none;
 }
 
@@ -54,7 +52,6 @@
     box-shadow 0.3s ease;
 }
 
-/* ── HOVER — scale up + glow ── */
 .project-card.visible:hover {
   transform: scale(1.07) translateY(-8px);
   border-color: rgba(0,238,255,0.55);
@@ -74,7 +71,6 @@
   padding: 28px;
   position: relative;
   z-index: 1;
-  /* clip inner overflow but allow card to overflow parent */
   border-radius: var(--radius);
   overflow: hidden;
 }
@@ -87,7 +83,6 @@
   pointer-events: none;
 }
 
-/* ── GLITCH KEYFRAMES ── */
 @keyframes card-glitch-in {
   0%   { opacity:0; clip-path:polygon(0 50%,100% 50%,100% 50%,0 50%); transform:translateX(-6px); }
   15%  { opacity:1; clip-path:polygon(0 20%,100% 20%,100% 80%,0 80%); transform:translateX(5px); }
@@ -189,11 +184,45 @@
   color: #00eeff;
   box-shadow: 0 0 16px rgba(0,238,255,0.2);
 }
-.carousel-nav-btn:active {
-  transform: scale(0.92);
-}
+.carousel-nav-btn:active { transform: scale(0.92); }
 
 .typing-cursor::after {
   content: '|'; color: var(--cyan);
   animation: blink 0.8s step-end infinite;
+}
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  /* Cards take full screen width minus small padding */
+  .project-card {
+    flex: 0 0 calc(100vw - 48px);
+  }
+
+  /* Less side padding in the track */
+  .projects-track {
+    padding: 20px 24px;
+    gap: 16px;
+  }
+
+  /* Hint and nav align to the left with less padding */
+  .carousel-hint {
+    padding: 0 24px;
+  }
+  .carousel-nav {
+    padding: 0 24px;
+    justify-content: flex-start;
+  }
+
+  /* Disable the mask fade on mobile — it clips cards badly on narrow screens */
+  .projects-carousel-viewport {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+
+  /* Reduce fade edge width */
+  .carousel-fade-left,
+  .carousel-fade-right { width: 24px; }
+
+  /* Larger card name on mobile */
+  .project-name { font-size: clamp(14px, 4vw, 18px); }
 }

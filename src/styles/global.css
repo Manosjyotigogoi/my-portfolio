@@ -13,13 +13,11 @@
 html, body {
   width: 100%; height: 100%;
   overflow: hidden;
-  /* NO solid background here — image must show through */
   background: transparent;
   font-family: 'Rajdhani', sans-serif;
   cursor: none;
 }
 
-/* The image lives here, behind everything */
 body::before {
   content: '';
   position: fixed; inset: 0; z-index: -2;
@@ -30,7 +28,6 @@ body::before {
   opacity: 1;
   pointer-events: none;
 }
-/* Dark tint so cyan/gold text stays readable */
 body::after {
   content: '';
   position: fixed; inset: 0; z-index: -1;
@@ -40,7 +37,7 @@ body::after {
 
 #root {
   width: 100%; height: 100%;
-  background: transparent;   /* was var(--bg) — killed the image */
+  background: transparent;
   position: relative; z-index: 0;
 }
 
@@ -54,8 +51,6 @@ body::after {
 @keyframes blink {
   0%, 100% { opacity: 1; } 50% { opacity: 0.15; }
 }
-
-/* Role-tag glitch — also used for card reveal jitter */
 @keyframes glitch-tag {
   0%   { transform: translate(0); }
   20%  { transform: translate(-2px, 1px); }
@@ -81,8 +76,6 @@ body::after {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
-
-/* ── Card glitch-reveal: exactly like role-tag but on opacity+clip ── */
 @keyframes card-glitch-in {
   0%   { opacity: 0;    transform: translate(-2px, 1px);  clip-path: polygon(0 15%, 100% 15%, 100% 35%, 0 35%); }
   15%  { opacity: 0.4;  transform: translate(2px, -1px);  clip-path: polygon(0 55%, 100% 55%, 100% 75%, 0 75%); }
@@ -92,4 +85,18 @@ body::after {
   75%  { opacity: 0.9;  transform: translate(1px, 0);     clip-path: polygon(0 0%,  100% 0%,  100% 100%, 0 100%); }
   88%  { opacity: 0.97; transform: translate(-1px, 0);    clip-path: polygon(0 0%,  100% 0%,  100% 100%, 0 100%); }
   100% { opacity: 1;    transform: translate(0);          clip-path: polygon(0 0%,  100% 0%,  100% 100%, 0 100%); }
+}
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  html, body {
+    overflow: auto;
+    height: auto;
+    min-height: 100%;
+    cursor: auto;        /* restore system cursor on touch */
+  }
+  #root {
+    height: auto;
+    min-height: 100%;
+  }
 }

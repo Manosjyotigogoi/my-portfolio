@@ -14,7 +14,6 @@
   text-transform: uppercase; text-decoration: none;
   flex-shrink: 0;
 }
-/* Nav sits in the absolute centre of the bar, independent of logo */
 .topnav {
   position: absolute;
   left: 50%; top: 50%;
@@ -29,3 +28,77 @@
   transition: color 0.25s;
 }
 .topnav a:hover { color: var(--cyan); }
+
+/* hamburger button — hidden on desktop */
+.topbar-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  margin-left: auto;
+  z-index: 60;
+}
+.topbar-hamburger span {
+  display: block;
+  width: 22px; height: 1.5px;
+  background: var(--cyan);
+  border-radius: 2px;
+  transition: transform 0.25s, opacity 0.25s;
+}
+
+/* mobile nav drawer */
+.topnav-mobile {
+  display: none;
+}
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  #topbar {
+    padding: 0 20px;
+    justify-content: space-between;
+  }
+
+  /* hide the centred desktop nav */
+  .topnav {
+    display: none;
+  }
+
+  /* show hamburger */
+  .topbar-hamburger {
+    display: flex;
+  }
+
+  /* mobile dropdown nav */
+  .topnav-mobile {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 52px; left: 0; right: 0;
+    background: rgba(4,12,20,0.97);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0,238,255,0.1);
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+    z-index: 49;
+  }
+  .topnav-mobile.open {
+    max-height: 300px;
+    padding: 12px 0 16px;
+  }
+  .topnav-mobile a {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; letter-spacing: 2.5px;
+    color: rgba(0,238,255,0.4); text-transform: uppercase;
+    text-decoration: none;
+    padding: 14px 24px;
+    border-bottom: 1px solid rgba(0,238,255,0.05);
+    transition: color 0.2s, background 0.2s;
+  }
+  .topnav-mobile a:last-child { border-bottom: none; }
+  .topnav-mobile a:hover { color: var(--cyan); background: rgba(0,238,255,0.04); }
+}

@@ -201,3 +201,23 @@
   font-size: 7.5px; letter-spacing: 3px;
   color: rgba(0,238,255,0.22); text-transform: uppercase; margin-left: 10px;
 }
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  #left {
+    padding: 40px 24px 32px;
+    justify-content: flex-start;
+    overflow: visible;
+  }
+
+  #left::after { display: none; }
+
+  #name-first, #name-last {
+    font-size: clamp(32px, 9vw, 48px);
+    letter-spacing: 2px;
+  }
+
+  .roles { margin-bottom: 24px; }
+  #bio-box { margin-bottom: 12px; }
+  #quote-box { margin-bottom: 24px; }
+}

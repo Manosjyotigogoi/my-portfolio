@@ -34,7 +34,6 @@
   animation: blink 2.2s ease-in-out infinite;
 }
 
-/* Corner brackets */
 .corner {
   position: absolute; width: 22px; height: 22px;
   z-index: 30; pointer-events: none;
@@ -46,7 +45,6 @@
 .corner-bl { bottom: 8px; left: 8px; transform: scaleY(-1); }
 .corner-br { bottom: 8px; right: 8px; transform: scale(-1,-1); }
 
-/* Drag hint */
 #drag-hint {
   position: absolute; bottom: 14px; left: 50%;
   transform: translateX(-50%);
@@ -66,4 +64,9 @@
   font-family: 'Space Mono', monospace;
   font-size: 7.5px; letter-spacing: 1.5px;
   color: rgba(0,238,255,0.15); z-index: 30; pointer-events: none;
+}
+
+/* ── MOBILE: hide the 3D canvas panel entirely ── */
+@media (max-width: 768px) {
+  #right { display: none; }
 }

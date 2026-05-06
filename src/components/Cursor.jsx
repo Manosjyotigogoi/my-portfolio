@@ -3,11 +3,13 @@ import './Cursor.css'
 
 export default function Cursor() {
   useEffect(() => {
+    // Don't run on touch-only devices
+    if (window.matchMedia('(pointer: coarse)').matches) return
+
     const cursor = document.getElementById('cursor')
     const ring   = document.getElementById('cursor-ring')
 
     const onMove = e => {
-      // Show cursor on first move (matches original opacity:0 → 1)
       cursor.style.opacity = 1
       cursor.style.left = e.clientX + 'px'
       cursor.style.top  = e.clientY + 'px'
